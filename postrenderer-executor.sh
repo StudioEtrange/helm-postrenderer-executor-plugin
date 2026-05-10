@@ -17,8 +17,8 @@ line to execute. It is evaluated by sh -c.
 Example:
   helm template release chart \
     --post-renderer postrenderer-executor \
-    --post-renderer-arg yq \
-    --post-renderer-arg '.metadata.labels.foo = "bar"'
+    --post-renderer-args yq \
+    --post-renderer-args '.metadata.labels.foo = "bar"'
 
 With an environment variable:
 

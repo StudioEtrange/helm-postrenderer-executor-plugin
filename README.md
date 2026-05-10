@@ -1,7 +1,7 @@
 # helm-postrenderer-executor-plugin
 
 Helm 4 plugin that provides a post-renderer able to run any command passed
-through `--post-renderer-arg` or through an environment variable.
+through `--post-renderer-args` or through an environment variable.
 
 The plugin reads the manifests rendered by Helm from `stdin`, forwards them to
 the requested command, then returns the command output on `stdout` for Helm to
@@ -16,8 +16,8 @@ Before with Helm v3.x, that is not allowed now with version v4.x:
 ```sh
 helm install my-release ./chart \
   --post-renderer ./scripts/post-render.sh \
-  --post-renderer-arg --flag \
-  --post-renderer-arg value
+  --post-renderer-args "--flag" \
+  --post-renderer-args "value"
 ```
 
 Now easy way to do the same thing with Helm v4.x:
@@ -25,9 +25,9 @@ Now easy way to do the same thing with Helm v4.x:
 ```sh
 helm install my-release ./chart \
   --post-renderer postrenderer-executor \
-  --post-renderer-arg ./scripts/post-render.sh \
-  --post-renderer-arg --flag \
-  --post-renderer-arg value
+  --post-renderer-args "./scripts/post-render.sh" \
+  --post-renderer-args "--flag" \
+  --post-renderer-args "value"
 ```
 
 ## Install
@@ -50,20 +50,20 @@ The plugin is declared as a Helm 4 post-renderer plugin with
 ## Usage
 
 Use the plugin name as the Helm 4 post-renderer, then pass the command and its
-arguments with one `--post-renderer-arg` per argument:
+arguments with one `--post-renderer-args` per argument:
 
 ```sh
 helm template my-release ./chart \
   --post-renderer postrenderer-executor \
-  --post-renderer-arg yq \
-  --post-renderer-arg '.metadata.labels.managed-by = "postrenderer-executor"'
+  --post-renderer-args yq \
+  --post-renderer-args '.metadata.labels.managed-by = "postrenderer-executor"'
 ```
 
-The first `--post-renderer-arg` is the command to execute. The following
-`--post-renderer-arg` values are passed as arguments to that command.
+The first `--post-renderer-args` is the command to execute. The following
+`--post-renderer-args` values are passed as arguments to that command.
 
 Alternatively, pass the whole command line with `HELM_POSTRENDERER_EXECUTOR_COMMAND`
-and omit `--post-renderer-arg`:
+and omit `--post-renderer-args`:
 
 ```sh
 HELM_POSTRENDERER_EXECUTOR_COMMAND='yq ''.metadata.labels.managed-by = "postrenderer-executor"''' \
@@ -87,9 +87,9 @@ Run `kustomize` as the transformation command:
 ```sh
 helm template my-release ./chart \
   --post-renderer postrenderer-executor \
-  --post-renderer-arg kustomize \
-  --post-renderer-arg build \
-  --post-renderer-arg overlays/dev
+  --post-renderer-args kustomize \
+  --post-renderer-args build \
+  --post-renderer-args overlays/dev
 ```
 
 Run custom shell script:
@@ -97,21 +97,21 @@ Run custom shell script:
 ```sh
 helm upgrade --install my-release ./chart \
   --post-renderer postrenderer-executor \
-  --post-renderer-arg ./post-render.sh
+  --post-renderer-args ./post-render.sh
 ```
 
 ```sh
 helm install my-release ./chart \
   --post-renderer postrenderer-executor \
-  --post-renderer-arg ./scripts/post-render.sh \
-  --post-renderer-arg --flag \
-  --post-renderer-arg value
+  --post-renderer-args ./scripts/post-render.sh \
+  --post-renderer-args "--flag" \
+  --post-renderer-args "value"
 ```
 
 ## Behavior
 
 `postrenderer-executor.sh` does not modify manifests itself. It only delegates to
-the command supplied through `--post-renderer-arg`:
+the command supplied through `--post-renderer-args`:
 
 ```sh
 postrenderer-executor.sh COMMAND [ARG...]
