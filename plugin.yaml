@@ -1,0 +1,10 @@
+apiVersion: v1
+type: postrenderer/v1
+name: postrenderer-executor
+usage: Helm post-renderer plugin to run any command through post-renderer options or env var.
+description: Helm 4 plugin that provides a post-renderer able to run any command passed through `--post-renderer-arg` or through an environment variable (HELM_POSTRENDERER_EXECUTOR_COMMAND).
+version: 0.1.0
+runtime: subprocess
+runtimeConfig:
+  platformCommand:
+    - command: ${HELM_PLUGIN_DIR}/postrenderer-executor.sh
