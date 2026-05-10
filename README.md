@@ -7,6 +7,29 @@ The plugin reads the manifests rendered by Helm from `stdin`, forwards them to
 the requested command, then returns the command output on `stdout` for Helm to
 continue the install, upgrade, or template flow.
 
+## Motivation
+
+Allow to use commands and scripts used as post-renderer with Helm v3.x in an easy way without writing a plugin for each commands/scripts that was used.
+
+Before with Helm v3.x, that is not allowed now with version v4.x:
+
+```sh
+helm install my-release ./chart \
+  --post-renderer ./scripts/post-render.sh \
+  --post-renderer-arg --flag \
+  --post-renderer-arg value
+```
+
+Now easy way to do the same thing with Helm v4.x:
+
+```sh
+helm install my-release ./chart \
+  --post-renderer postrenderer-executor \
+  --post-renderer-arg ./scripts/post-render.sh \
+  --post-renderer-arg --flag \
+  --post-renderer-arg value
+```
+
 ## Install
 
 From this repository:
