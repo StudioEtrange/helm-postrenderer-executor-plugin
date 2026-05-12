@@ -127,3 +127,16 @@ postrenderer-executor.sh
 
 The delegated command must read manifests from `stdin` and write the transformed
 manifests to `stdout`.
+
+
+## Contributors
+
+See the [CONTRIBUTORS](CONTRIBUTORS) file for the full list of contributors
+
+## License
+
+Licensed under the **Apache License, Version 2.0**.
+
+Copyright © 2026 **Sylvain Boucault @StudioEtrange**.
+
+See the [LICENSE](LICENSE) file for details.
